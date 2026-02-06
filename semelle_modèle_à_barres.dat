@@ -1,0 +1,400 @@
+
+PROG AQUA urs:1
+HEAD
+UNIT 5
+NORM 'NF' 'en199x-200x-bridge' COUN 33 CAT 'B' UNIT 5
+
+
+
+
+STEE 2    B '500B' TMAX 32 TITL "=B 500 B (EN 1992)"
+SSLA EPS SERV SIG 1.150000[-] TYPE  EXT
+SSLA EPS ULTI SIG -1.150000[-] TYPE  EXT
+SSLA EPS CALC SIG -1.150000[-] TYPE  EXT
+HMAT 2 TYPE FOUR NSP 0 A 1
+
+
+end
+
+
+
++prog template urs:23.1
+
+!#!Chapter Ne pas toucher
+
+DEL#*     $ Supprime toutes les variables
+
+#define PYPZ=011000         $ XP
+#define PXPZ=101000         $ YP
+#define PXPY=110000         $ ZP
+#define PXPYPZ=111000       $ PP
+#define MYMZ=000011         $ XM
+#define MXMZ=000101         $ YM
+#define MXMY=000110         $ ZM
+#define MXMYMZ=000111       $ MM
+#define PYPZMYMZ=011011     $ XPXM
+#define PYPZMXMZ=011101     $ XPYM
+#define PYPZMXMY=011110     $ XPZM
+#define PYPZMXMYMZ=011111   $ XPMM
+#define PXPZMYMZ=101011     $ YPXM
+#define PXPZMXMZ=101101     $ YPYM
+#define PXPZMXMY=101110     $ YPZM
+#define PXPZMXMYMZ=101111   $ YPMM
+#define PXPYMYMZ=110011     $ ZPXM
+#define PXPYMXMZ=110101     $ ZPYM
+#define PXPYMXMY=110110     $ ZPZM
+#define PXPYMXMYMZ=110111   $ ZPMM
+#define PXPYPZMYMZ=111011   $ PPXM
+#define PXPYPZMXMZ=111101   $ PPYM
+#define PXPYPZMXMY=111110   $ PPZM
+#define PXPYPZMXMYMZ=111111 $ F
+#define elastic=0         $ élastique
+
+
+
+#define  linear support
+if     #lin_support(#k) ==$(PYPZ)         ; sto#stiff "PYPZ"
+elseif #lin_support(#k)==$(PXPZ)         ; sto#stiff "PXPZ"
+elseif #lin_support(#k)==$(PXPY)         ; sto#stiff "PXPY"
+elseif #lin_support(#k)==$(PXPYPZ)       ; sto#stiff "PP"
+elseif #lin_support(#k)==$(MYMZ)         ; sto#stiff "MYMZ"
+elseif #lin_support(#k)==$(MXMZ)         ; sto#stiff "MXMZ"
+elseif #lin_support(#k)==$(MXMY)         ; sto#stiff "MXMY"
+elseif #lin_support(#k)==$(MXMYMZ)       ; sto#stiff "MM"
+elseif #lin_support(#k)==$(PYPZMYMZ)     ; sto#stiff "PYPZMYMZ"
+elseif #lin_support(#k)==$(PYPZMXMZ)     ; sto#stiff "PYPZMXMZ"
+elseif #lin_support(#k)==$(PYPZMXMY)     ; sto#stiff "PYPZMXMY"
+elseif #lin_support(#k)==$(PYPZMXMYMZ)   ; sto#stiff "PYPZMM"
+elseif #lin_support(#k)==$(PXPZMYMZ)     ; sto#stiff "PXPZMYMZ"
+elseif #lin_support(#k)==$(PXPZMXMZ)     ; sto#stiff "PXPZMXMZ"
+elseif #lin_support(#k)==$(PXPZMXMY)     ; sto#stiff "PXPZMXMY"
+elseif #lin_support(#k)==$(PXPZMXMYMZ)   ; sto#stiff "PXPZMM"
+elseif #lin_support(#k)==$(PXPYMYMZ)     ; sto#stiff "PXPYMYMZ"
+elseif #lin_support(#k)==$(PXPYMXMZ)     ; sto#stiff "PXPYMXMZ"
+elseif #lin_support(#k)==$(PXPYMXMY)     ; sto#stiff "PXPYMXMY"
+elseif #lin_support(#k)==$(PXPYMXMYMZ)   ; sto#stiff "PXPYMM"
+elseif #lin_support(#k)==$(PXPYPZMYMZ)   ; sto#stiff "PPMYMZ"
+elseif #lin_support(#k)==$(PXPYPZMXMZ)   ; sto#stiff "PPMXMZ"
+elseif #lin_support(#k)==$(PXPYPZMXMY)   ; sto#stiff "PPMXMY"
+elseif #lin_support(#k)==$(PXPYPZMXMYMZ) ; sto#stiff "PPMM"
+elseif #lin_support(#k)==$(elastic)    ; sto#stiff ""
+ENDIF
+#enddef
+
+#define support ponc
+if     #support(#k)==$(PYPZ)         ; sto#rigide "PYPZ"
+elseif #support(#k)==$(PXPZ)         ; sto#rigide "PXPZ"
+elseif #support(#k)==$(PXPY)         ; sto#rigide "PXPY"
+elseif #support(#k)==$(PXPYPZ)       ; sto#rigide "PP"
+elseif #support(#k)==$(MYMZ)         ; sto#rigide "MYMZ"
+elseif #support(#k)==$(MXMZ)         ; sto#rigide "MXMZ"
+elseif #support(#k)==$(MXMY)         ; sto#rigide "MXMY"
+elseif #support(#k)==$(MXMYMZ)       ; sto#rigide "MM"
+elseif #support(#k)==$(PYPZMYMZ)     ; sto#rigide "PYPZMYMZ"
+elseif #support(#k)==$(PYPZMXMZ)     ; sto#rigide "PYPZMXMZ"
+elseif #support(#k)==$(PYPZMXMY)     ; sto#rigide "PYPZMXMY"
+elseif #support(#k)==$(PYPZMXMYMZ)   ; sto#rigide "PYPZMM"
+elseif #support(#k)==$(PXPZMYMZ)     ; sto#rigide "PXPZMYMZ"
+elseif #support(#k)==$(PXPZMXMZ)     ; sto#rigide "PXPZMXMZ"
+elseif #support(#k)==$(PXPZMXMY)     ; sto#rigide "PXPZMXMY"
+elseif #support(#k)==$(PXPZMXMYMZ)   ; sto#rigide "PXPZMM"
+elseif #support(#k)==$(PXPYMYMZ)     ; sto#rigide "PXPYMYMZ"
+elseif #support(#k)==$(PXPYMXMZ)     ; sto#rigide "PXPYMXMZ"
+elseif #support(#k)==$(PXPYMXMY)     ; sto#rigide "PXPYMXMY"
+elseif #support(#k)==$(PXPYMXMYMZ)   ; sto#rigide "PXPYMM"
+elseif #support(#k)==$(PXPYPZMYMZ)   ; sto#rigide "PPMYMZ"
+elseif #support(#k)==$(PXPYPZMXMZ)   ; sto#rigide "PPMXMZ"
+elseif #support(#k)==$(PXPYPZMXMY)   ; sto#rigide "PPMXMY"
+elseif #support(#k)==$(PXPYPZMXMYMZ) ; sto#rigide "PPMM"
+elseif #support(#k)==$(elastic)    ; sto#rigide ""
+ENDIF
+#enddef
+end
+
++prog template urs:3
+
+
+!+!Chapter  ----------------    Geometry    ----------------
+
+!*!Label    --------------- Surface ----------------
+LET#XLS.NAME "..\semelle.xlsm"
+LET#XLS.SHEET "Input Sofistik"
+
+sto#dimensions  $$ b,H,l
+XLS.READ(2,3)   $$  Width   l   in  meters
+XLS.READ(3,3) $$  Height  H   in  meters
+XLS.READ(4,3) $   Length  L   in  meters
+
+ !#!Chapter  ----------------    Supports    ----------------
+
+sto#n_supports $$ nombre d'appuis
+XLS.READ(5,3)
+
+
+sto#start_i_support  $$première ligne du tableau
+XLS.READ(7,3)
+
+LET#XLS.SHEET "Input data"
+sto#positions_x1 0
+sto#positions_z1 0
+sto#elastiq 0
+sto#support 0
+$$ les prochaines variables sont
+sto#ka 0   $ Array indicating the vertical stiffnesses of the elastic supports [kN/m3]
+sto#kl 0  $ Array indicating the horizontal stiffnesses of the elastic supports [kN/m3]
+sto#kd 0  $ Array indicating the rotational stiffnesses of the elastic supports [kN/m3]
+!*!Supports
+LOOP#i #n_supports !supports
+   sto#positions_x1(#i)= XLS.READ(#start_i_support+#i,3)
+   sto#positions_z1(#i)= XLS.READ(#start_i_support+#i,4)
+
+   sto#elastiq(#i)= 1
+
+   sto#support(#i)= $(PYPZ)
+
+
+   sto#ka(#i)= 0
+   sto#kl(#i)= 0
+   sto#kd(#i)= 0
+ENDLOOP
+
+
+sto#mesh    0.05[m]
+
+
+!#!Chapter    --------------- Nodes & Bars   ----------------
+LET#XLS.SHEET "Input Sofistik"
+
+sto#diameters   $$ Diameters
+XLS.READ(4,5)  $$ Vertical diameter
+XLS.READ(5,5)  $ Horizontal diameter
+
+
+sto#depths  $$ Number of bars in the footing's depth
+XLS.READ(6,5)  $$ Vertical diameter
+XLS.READ(7,5)  $ Horizontal diameter
+
+
+STO#nb_nodes $$ number of nodes
+XLS.READ(16,3)
+
+
+STO#start_i_nodes $$ first line of the table
+XLS.READ(17,3)
+
+STO#nb_bars $$ number of bars
+XLS.READ(18,3)
+
+STO#start_i_bars $$ first line of the table
+XLS.READ(19,3)
+
+sto#n_contour $$ nombre d'appuis
+XLS.READ(13,3)
+STO#start_contour $$ first line of the table
+XLS.READ(12,3)
+
+LET#XLS.SHEET "TMP_BT"
+
+$$positions barres
+STO#bars_n1 0
+STO#bars_n2 0
+
+
+LOOP#i #nb_bars
+
+   sto#bars_n1(#i)= XLS.READ(2+#i,6)
+   sto#bars_n2(#i)= XLS.READ(2+#i,7)
+
+ENDLOOP
+
+$$ positions noeuds
+STO#nodes_x1 0
+STO#nodes_z1 0
+
+LOOP#i #nb_nodes
+
+   sto#nodes_x1(#i)= XLS.READ(2+#i,2)
+   sto#nodes_z1(#i)= XLS.READ(2+#i,3)
+
+ENDLOOP
+prt#nodes_x1
+
+LET#XLS.SHEET "Input data"
+
+sto#contour_x1 0
+sto#contour_z1 0
+
+LOOP#i #n_contour !contour
+   sto#contour_x1(#i)= XLS.READ(#start_contour+#i,3)
+   sto#contour_z1(#i)= XLS.READ(#start_contour+#i,4)
+
+ENDLOOP
+
+
+
+!#!Chapter  ----------------    LoadCases   ----------------
+
+sto#n_cas_de_charges 1 $ pour l'instant on travaille seulement avec un seul cas de charge, à voir pour en rajouter
+
+LET#XLS.SHEET "Input Sofistik"
+
+sto#nG_pieux    $$ Nb of piles for each loadcases
+XLS.READ(9,3)
+
+
+sto#start_i_charge  $$première ligne du tableau
+XLS.READ(10,3)
+
+sto#start_i_pieux  $$première ligne du tableau
+XLS.READ(8,3)
+LET#XLS.SHEET "Input data"
+
+sto#n_pieux 0 $effort normal dans les pieux
+sto#v_pieux 0 $effort tranchant dans les pieux
+sto#m_pieux 0 $ moments dans les pieux
+
+LOOP#i #nG_pieux !chargement
+   sto#n_pieux(#i)= XLS.READ(#start_i_charge+#i,3)
+   sto#v_pieux(#i)= XLS.READ(#start_i_charge+#i,4)
+   sto#m_pieux(#i)= XLS.READ(#start_i_charge+#i,5)
+ENDLOOP
+
+
+
+end
+!#!Chapter Sections
+
++PROG AQUA urs:54.1
+
+HEAD
+UNIT 5
+CTRL
+CTRL RFCS 1
+
+
+let#diameter_v=#diameters(0)*SQR(#depths(0)) $ Equivalent Vertical Diameter
+let#diameter_h=#diameters(1)*SQR(#depths(1)) $ Equivalent Horizontal Diameter
+
+
+SCIT 1 D #diameter_v MNO 2 MRF 0 IT 100[o/o] AY 100[o/o] AZ 100[o/o] TITL "Vertical Bar Section"
+
+SCIT 2 D #diameter_h MNO 2 MRF 0 IT 100[o/o] AY 100[o/o] AZ 100[o/o] TITL "Horizontal Bar Section"
+
+END
+
+!+!Chapter Geometry
+
++PROG SOFIMSHC urs:54.2
+HEAD
+UNIT 5
+SYST SPAC GDIV 10000 GDIR NEGZ
+CTRL TOPO 0
+CTRL TOLG VAL 0.010000[m]
+CTRL MESH 1
+CTRL EDRL 1
+CTRL HMIN VAL #mesh
+CTRL FINE VAL -1
+CTRL PROG VAL 1.700000
+
+!*! Contour
+
+$LOOP#i (#n_contour-1)
+
+$SLNB X1      #contour_x1(#i)          0.0        #contour_z1(#i) X2   #contour_x1(#i+1)          0.0        #contour_z1(#i+1)
+$endloop
+LET#XLS.NAME "..\semelle.xlsm"
+LET#XLS.SHEET "TMP_BT"
+
+!*!Label Nodes
+
+sto#is_support 0  $test
+sto#is_pile 0 $test
+sto#pieux_x1 0 $position x des pieux
+sto#pieux_z1 0 $ position z des pieux
+
+
+LOOP#i #nb_nodes  !noeuds
+sto#is_support(#i)= XLS.READ(2+#i,5)
+sto#is_pile(#i)= XLS.READ(2+#i,4)
+if #is_support(#i)>0 !définir un support
+let#k #is_support(#i) !numéro du support correspondant
+let#j #i+1
+#include support ponc
+
+SPT #j X #nodes_x1(#i)  0.0  Z  #nodes_z1(#i)  FIX #rigide NX 0 0 -1 SX 1 0 0 TITL "P#j"
+if  #elastiq(#j)==0 ; spts cp #kz(1) cq #kh(1) cm #km(1) dx 0 0 1 grp 1  ; spts cm #km(1) dx 0 1 0 grp 1 ; spts cm #km(1) dx 1 0 0 grp 1 ;endif
+
+elseif #is_pile(#i)>0 !définir un pieux
+
+let#j #is_pile(#i) ! numéro du pieux
+
+sto#pieux_x1(#j-1) #nodes_x1(#i) $ changer les coordonées des chargements
+sto#pieux_z1(#j-1) #nodes_z1(#i)
+prt#pieux_x1
+prt#nodes_x1
+if #j ==1
+SPT (#i+1) X #nodes_x1(#i) Y 0 Z #nodes_z1(#i)  FIX "PXPY" NX 0 0 -1 SX 1 0 0 TITL
+else
+SPT (#i+1) X #nodes_x1(#i) Y 0 Z #nodes_z1(#i)
+endif
+else
+SPT (#i+1) X #nodes_x1(#i) Y 0 Z #nodes_z1(#i)
+endif
+endloop
+
+
+!*!Label Truss
+LOOP#i #nb_bars  !bars
+SLN #i+1 NPA #bars_n1(#i) NPE #bars_n2(#i) SNO 2 STYP 'T'
+endloop
+
+
+END
+
++prog sofiload urs:26.2
+head Charges
+
+echo load extr
+
+
+
+!+!Chapter LC1
+let#k=1
+
+if (#k <= #n_cas_de_charges)&(#k==1)   ;  ! boucle à prolonger plus tard si plus de cas
+
+lc #k type NONE titl "Cas de charges #k"
+
+
+loop#i #nG_pieux(#k-1)  ;  $$ Pile Load Cases
+
+let#j=#i
+
+poin ref node type pg p -#n_pieux(#j) x #pieux_x1(#j) y 0 z #pieux_z1(#j)  $ normal load
+poin ref node type pxx p -#v_pieux(#j) x #pieux_x1(#j) y 0 z #pieux_z1(#j)  $ Horizontal load
+
+
+endloop
+
+let#k=#k+1
+endif
+
+
+end
+
+
+!#!Chapter  ----------------   Calculs   ----------------
++PROG ASE urs:9 $ Non Linear Analysis LC1
+
+
+ECHO FULL FULL
+CTRL CONC VAL 0.2
+SYST PROB LINE  ITER 200
+NSTR KMOD kn  KSV ULD
+GRP -
+LC 1
+
+
+END
+
+
